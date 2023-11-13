@@ -21,6 +21,7 @@
   name: Update poetry.lock to match pyproject.toml
   pass_filenames: false
   language: script
+  files: ^(pyproject.toml|poetry.lock)$
   stages:
     - "post-commit"
     - "post-checkout"

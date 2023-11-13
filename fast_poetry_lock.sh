@@ -1,2 +1,2 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 poetry lock --check || poetry lock --no-update

@@ -9,6 +9,20 @@
   files: ^(pyproject.toml|poetry.lock)$
   fail_fast: true
 
+- id: update-poetry-lock
+  name: Update poetry.lock to match pyproject.toml
+  pass_filenames: false
+  language: script
+  entry: check_poetry_lockfile.sh
+  stages:
+    - "post-commit"
+    - "post-checkout"
+    - "post-merge"
+    - "post-rewrite"
+    - "manual"
+  always_run: true
+  fail_fast: true
+
 - id: export-requirements
   name: Export requirements.txt from poetry.lock
   language: system
@@ -17,16 +31,3 @@
   files: ^(pyproject.toml|poetry.lock)$
   fail_fast: true
 
-- id: update-poetry-lock
-  name: Update poetry.lock to match pyproject.toml
-  pass_filenames: false
-  language: script
-  files: ^(pyproject.toml|poetry.lock)$
-  stages:
-    - "post-commit"
-    - "post-checkout"
-    - "post-merge"
-    - "post-rewrite"
-    - "manual"
-  entry: check_poetry_lockfile.sh
-  always_run: true

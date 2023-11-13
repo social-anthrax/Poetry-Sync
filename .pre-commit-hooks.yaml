@@ -1,0 +1,31 @@
+# default_install_hook_types:
+#   ["pre-commit", "post-checkout", "post-merge", "post-rewrite"]
+
+- id: check-and-update-lock
+  name: Fast poetry lock
+  language: script
+  pass_filenames: false
+  entry: fast_poetry_lock.sh
+  files: ^(pyproject.toml|poetry.lock)$
+  fail_fast: true
+
+- id: export-requirements
+  name: Export requirements.txt from poetry.lock
+  language: system
+  pass_filenames: false
+  entry: poetry export --without-hashes -o requirements.txt
+  files: ^(pyproject.toml|poetry.lock)$
+  fail_fast: true
+
+- id: update-poetry-lock
+  name: Update poetry.lock to match pyproject.toml
+  pass_filenames: false
+  language: script
+  stages:
+    - "post-commit"
+    - "post-checkout"
+    - "post-merge"
+    - "post-rewrite"
+    - "manual"
+  entry: check_poetry_lockfile.sh
+  always_run: true
